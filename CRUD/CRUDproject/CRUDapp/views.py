@@ -34,31 +34,30 @@ class RegisterView(FormView):
 
 # Create your views here.
 
-# @login_required
+@login_required
 def article_list(request):
     articles = Article.objects.all()
     return render(request, "app/article_list.html", {'articles': articles})
 
-# @login_required
+@login_required
 def article_detail(request, pk):
     article = get_object_or_404(Article, pk=pk)
     return render(request, "app/article_detail.html", {'article': article})
 
-# @login_required
+@login_required
 def article_new(request):
     if request.method == "POST":
         form = ArticleForm(request.POST)
         if form.is_valid():
             article = form.save(commit=False)
-            article.author = request.User
-            article.save()
+            article.author = request.user
             return redirect("article_detail", pk=article.pk)
         
     else:
         form = ArticleForm()
     return render(request, "app/article_edit.html", {'form': form})
 
-# @login_required
+@login_required
 def article_edit(request, pk):
     article = get_object_or_404(Article, pk=pk)
     if request.method == "POST":
@@ -74,7 +73,7 @@ def article_edit(request, pk):
     return render(request, "app/article_edit.html", {'form': form})
 
 
-# @login_required
+@login_required
 def article_delete(request, pk):
     article = get_object_or_404(Article, pk=pk)
     article.delete()
