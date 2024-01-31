@@ -1,0 +1,33 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+    <h1>
+       {% if form.instance.pk %} 
+       Edit
+       {% else %}
+       New
+       {% endif %}
+       Post
+    </h1>
+
+    <form method="post" action="
+    {% if form.instance.pk %} 
+    {% url 'article_edit' pk=form.instance.pk %}
+    {% else %}
+    {% url 'article_new' %}
+    {% endif %}
+    ">
+    {% csrf_token %}
+    {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="
+    {% if form.instance.pk %} 
+    {% url 'article_detail' pk=form.instance.pk %}
+    {% else %}
+    {% url 'article_list' %}
+    {% endif %}">
+    Cancel
+    </a>
+{% endblock content %}
